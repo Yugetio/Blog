@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class AuthService {
 
-  singUp = ({ username, email, password}) => {
+  signUp = ({ username, email, password}) => {
     return new Promise((resolve, reject) => {
       axios.post('/auth/register', {
         username,
@@ -18,7 +18,7 @@ class AuthService {
     })
   };
 
-  singIn = ({ email, password }) => {
+  signIn = ({ email, password }) => {
     return new Promise((resolve, reject) => {
       axios.post('/auth/login', {
         email,
