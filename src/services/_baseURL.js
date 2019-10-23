@@ -1,0 +1,1 @@
+export default 'https://rest-api-sandbox-ds.herokuapp.com/api/v1';
