@@ -1,22 +1,31 @@
-import { AuthService } from '../services';
+import {AuthService, UserService} from '../services';
 
-const authService = new AuthService();
-
-// authService.singUp({
-//   username: 'test_2',
-//   email: 'example@example.com',
+// AuthService.signUp({
+//   username: 'test_113222',
+//   email: 'e1xample1@exa1mple.com',
 //   password: '123456'
+// }).then(data => console.log(data));
+
+// AuthService.signIn({
+//   email: 'e1xample@exa1mple.com',
+//   password: '123456'
+// }).then((data) => {
+//   console.log(data);
 // });
 
-// authService.singIn({
-//   email: 'example@example.com',
-//   password: '123456'
-// }).then(({ token }) => {
-//   authService.checkToken(token)
-// });
+// AuthService.checkToken().then(data => console.log(data));
 
-authService.checkExistUsername('first')
-.catch((err) =>{
-  console.log(err.status)
-});
+// AuthService.checkExistUsername('test_113222')
+//   .then(data => console.log(data))
+//   .catch((err) =>{
+//     console.log(err)
+//   });
 
+
+// UserService.getProfile().then((data) => console.log(data));
+// UserService.updatedProfile({
+//   firstname: '12345',
+//   lastname: '67890'
+// }).then((data) => console.log(data));
+
+// UserService.deleteProfile().then(data => console.log(data))

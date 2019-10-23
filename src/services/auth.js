@@ -2,7 +2,12 @@ import axios from 'axios';
 
 class AuthService {
 
-  signUp = ({ username, email, password}) => {
+  /**
+   * @param { Object} payload, Fields must be string
+   *
+   * @return { Object }, With message field
+   */
+  signUp = ({username, email, password}) => {
     return new Promise((resolve, reject) => {
       axios.post('/auth/register', {
         username,
@@ -18,6 +23,11 @@ class AuthService {
     })
   };
 
+  /**
+   * @param { Object} payload, Fields must be string
+   *
+   * @return { Object }, With fields userId and token
+   */
   signIn = ({ email, password }) => {
     return new Promise((resolve, reject) => {
       axios.post('/auth/login', {
@@ -25,7 +35,8 @@ class AuthService {
         password
       })
       .then(res => {
-        console.log(res.data);
+        localStorage['user-token'] = res.data.token;
+
         resolve(res.data);
       })
       .catch(err => {
@@ -34,37 +45,37 @@ class AuthService {
     })
   };
 
-  checkToken = (token) => {
+  /**
+   * @return { Object }, With field authenticate
+   */
+  checkToken = () => {
     return new Promise((resolve, reject) => {
-      axios.get('/auth/checkToken', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      axios.get('/auth/checkToken')
       .then(res => {
-        console.log(res.data);
         resolve(res.data);
       })
       .catch(err => {
-        console.log(err);
         reject(err);
       })
     })
   };
 
+  /**
+   * @param { String } username
+   *
+   * @return { Object }, With fields status, statusText and other
+   */
   checkExistUsername = (username) => {
     return new Promise((resolve, reject) => {
       return axios.get(`/auth/checkExistUsername?username=${username}`)
       .then(res => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch(err => {
-        reject(err.response.data);
+        reject(err.response);
       })
     })
   };
-
 }
 
-export default AuthService;
+export default new AuthService();
