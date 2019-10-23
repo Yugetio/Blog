@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './auth';
 import UserService from './user';
+import PostService from './post';
 
 axios.defaults.baseURL = 'https://rest-api-sandbox-ds.herokuapp.com/api/v1';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -12,5 +13,6 @@ if (token) {
 
 export {
   AuthService,
-  UserService
+  UserService,
+  PostService
 };

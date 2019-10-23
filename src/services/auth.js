@@ -76,6 +76,14 @@ class AuthService {
       })
     })
   };
+
+  logout = () => {
+    return new Promise((resolve, reject) => {
+      delete axios.defaults.headers.common['Authorization'];
+      localStorage.removeItem('user-token');
+      resolve();
+    })
+  }
 }
 
 export default new AuthService();
