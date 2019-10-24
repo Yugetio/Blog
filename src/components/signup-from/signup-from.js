@@ -93,7 +93,7 @@ const SignupForm = () => {
                 <button type="submit"
                         className="btn btn-primary btn-block"
                         disabled={isSubmitting}>
-                  Submit
+                  Registration
                 </button>
               </Form>
             )}
