@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AuthService from './auth';
 
 class UserService {
 
@@ -44,6 +45,7 @@ class UserService {
     return new Promise((resolve, reject) => {
       axios.delete('/user/profile')
       .then(res => {
+        AuthService.logout();
         resolve(res.data);
       })
       .catch(err => {
