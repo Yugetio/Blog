@@ -2,21 +2,33 @@ import React from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as yup from 'yup';
 
-import { AuthService } from '../../services'
+import {connect} from 'react-redux';
+
+import {login} from '../../actions'
+
 
 const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(6).required(),
+  email: yup.string().email().label('Email').required(),
+  password: yup.string().label('Password').min(6).required(),
 });
 
-const submitForm = (values, {setSubmitting}) => {
-  setSubmitting(false);
-  AuthService.signIn(values)
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
-};
 
-const SigninForm = () => {
+const SigninForm = (props) => {
+
+  const submitForm = (values, actions) => {
+    props.login(values)
+    .then((data) => {
+      console.log(data.payload);
+    })
+    .catch(error => {
+      console.log('error');
+      actions.setFieldError('general', error.message);
+    })
+    .finally(() => {
+      actions.setSubmitting(false);
+    });
+  };
+
   const initialValues = {
     email: '',
     password: ''
@@ -83,4 +95,10 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+const mapStateToProps = state => {
+  return {
+    data: state.auth
+  }
+};
+
+export default connect(mapStateToProps, {login})(SigninForm);

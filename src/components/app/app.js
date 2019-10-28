@@ -1,27 +1,42 @@
 import React, {Fragment} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 
 import './app.css';
 
-import SignupForm from '../signup-from';
 import Header from "../header";
-import SigninForm from "../signin-form/signin-form";
+import SignUpForm from '../signUpFrom';
+import SignInForm from '../signInForm';
 import Posts from "../posts";
+import Welcome from "../welcome";
 
-const App = () => {
+const App = (props) => {
   return (
     <Fragment>
       <Header/>
       <div className="container">
         <Switch>
           <Route path="/"
-                 component={Posts}
+                 component={Welcome}
                  exact/>
-          <Route path="/signup"
-                 component={SignupForm}/>
-          <Route path="/signin"
-                 component={SigninForm}/>
+
+
+          <Route path="/signup">
+            {props.auth.isLogin ? <Redirect to="/signin" /> : <SignUpForm />}
+          </Route>
+
+          <Route path="/signin">
+            {props.auth.isLogin ? <Redirect to="/" /> : <SignInForm />}
+          </Route>
+
+          {/*<Route path="/signup"*/}
+          {/*       component={SignUpForm}/>*/}
+
+          {/*<Route path="/signin"*/}
+          {/*       component={SignInForm}/>*/}
+          <Route path="/posts"
+                 component={Posts} />
 
         </Switch>
       </div>
@@ -29,4 +44,10 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+};
+
+export default connect(mapStateToProps, {})(App);

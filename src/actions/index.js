@@ -1,3 +1,22 @@
+import {
+  login,
+  registration,
+  logout
+} from './auth'
+
+import {
+  getAllPosts
+} from './posts';
+
+
+export {
+  login,
+  registration,
+  logout,
+  getAllPosts
+};
+
+
 // import {AuthService, PostService, UserService} from '../services';
 
 
