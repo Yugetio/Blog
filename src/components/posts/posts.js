@@ -18,8 +18,10 @@ const renderPosts = (posts) => {
 class Posts extends React.Component {
   componentDidMount() {
     this.props.getAllPosts();
+    console.log();
   }
 
+  
   render() {
     const {error, isLoaded, posts} = this.props;
     let body = null;

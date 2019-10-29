@@ -1,19 +1,34 @@
 import {
   login,
   registration,
-  logout
+  logout,
+  requestAuth,
+  successAuth,
+  failureAuth
 } from './auth'
 
 import {
   getAllPosts
 } from './posts';
 
+import {
+  getProfile,
+  updatedProfile,
+  deleteProfile
+} from './user';
+
 
 export {
   login,
   registration,
   logout,
-  getAllPosts
+  requestAuth,
+  successAuth,
+  failureAuth,
+  getAllPosts,
+  getProfile,
+  updatedProfile,
+  deleteProfile
 };
 
 

@@ -1,11 +1,10 @@
-import authReducer from './auth';
+import {combineReducers} from 'redux';
+import auth from './auth';
 import posts from './posts';
+import user from './user';
 
-const reducer = (state, action) => {
-  return {
-    auth: authReducer(state, action),
-    posts: posts(state, action)
-  };
-};
-
-export default reducer;
+export default combineReducers ({
+  auth,
+  posts,
+  user
+});

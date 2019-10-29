@@ -5,13 +5,17 @@ import {connect} from 'react-redux';
 
 import './app.css';
 
-import Header from "../header";
+import Header from '../header';
 import SignUpForm from '../signUpFrom';
 import SignInForm from '../signInForm';
-import Posts from "../posts";
-import Welcome from "../welcome";
+import Posts from '../posts';
+import Welcome from '../welcome';
+import User from '../user';
 
 const App = (props) => {
+
+
+  const {isLogin} = props.auth;
   return (
     <Fragment>
       <Header/>
@@ -23,20 +27,19 @@ const App = (props) => {
 
 
           <Route path="/signup">
-            {props.auth.isLogin ? <Redirect to="/signin" /> : <SignUpForm />}
+            {isLogin ? <Redirect to="/"/> : <SignUpForm/>}
           </Route>
 
           <Route path="/signin">
-            {props.auth.isLogin ? <Redirect to="/" /> : <SignInForm />}
+            {isLogin ? <Redirect to="/"/> : <SignInForm/>}
           </Route>
 
-          {/*<Route path="/signup"*/}
-          {/*       component={SignUpForm}/>*/}
+          <Route path="/user">
+            {isLogin ? <User/> : <Redirect to="/signin"/>}
+          </Route>
 
-          {/*<Route path="/signin"*/}
-          {/*       component={SignInForm}/>*/}
           <Route path="/posts"
-                 component={Posts} />
+                 component={Posts}/>
 
         </Switch>
       </div>

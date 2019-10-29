@@ -1,57 +1,49 @@
-const authReducer = (state, action) => {
-  if (state === undefined) {
-    return {
-      userData: {},
-      request: false,
-      error: false,
-      isLogin: !!localStorage['user-token']
-    };
-  }
+const initialState = {
+  userData: {},
+  loading: false,
+  error: false,
+  isLogin: !!localStorage['user-token']
+};
+
+const authReducer = (state = initialState, action) => {
 
   switch (action.type) {
-    case 'REQUEST':
+    case 'AUTH_REQUEST':
       return {
-        ...state.auth,
-        request: true
+        ...state,
+        loading: true
       };
 
-    case 'SIGNIN_SUCCESS':
+    case 'AUTH_SUCCESS':
       return {
-        ...state.auth,
-        request: false,
-        userData: action.payload,
-        isLogin: !!action.payload.token
+        ...state,
+        loading: false,
+        userData: action.payload ? action.payload : {},
+        isLogin: action.payload.token ? !!action.payload.token : false
       };
 
-
-    case 'SIGNUP_SUCCESS':
+    case 'AUTH_FEILURE':
       return {
-        ...state.auth,
-        request: false
-      };
-
-    case 'FEILURE':
-      return {
-        ...state.auth,
-        request: false,
+        ...state,
+        loading: false,
         error: true
       };
 
     case 'LOGOUT':
       return {
-        ...state.auth,
+        ...state,
         isLogin: false,
         userData: {}
       };
 
     case 'CHECK_TOKEN_SUCCESS':
       return {
-        ...state.auth,
+        ...state,
         isLogin: true
       };
 
     default:
-      return state.auth;
+      return state;
   }
 };
 

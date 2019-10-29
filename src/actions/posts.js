@@ -1,32 +1,32 @@
 import {PostService} from '../services';
 
-const request_post = () => {
+const requestPost = () => {
   return {
-    type: 'REQUEST_POST'
+    type: 'POST_REQUEST'
   }
 };
 
-// const success_post = (payload) => {
+// const successPost = (payload) => {
 //   return {
 //     type: 'SUCCESS_POST'
 //   }
 // };
 
-const failure_post = () => {
+const failurePost = () => {
   return {
-    type: 'FEILURE_POST'
+    type: 'POST_FEILURE'
   }
 };
 
 const getAllPosts = () => (dispatch) => {
-  dispatch(request_post());
+  dispatch(requestPost());
 
   return PostService.getAllPost()
   .then(data => dispatch({
     type: 'GET_ALL_POSTS',
     payload: data
   }))
-  .catch(() => dispatch(failure_post()));
+  .catch(() => dispatch(failurePost()));
 };
 
 export {

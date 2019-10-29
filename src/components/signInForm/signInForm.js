@@ -2,9 +2,12 @@ import React from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as yup from 'yup';
 
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {login} from '../../actions'
+import {getProfile, requestAuth, failureAuth, successAuth} from '../../actions'
+import {AuthService} from "../../services";
+import {bindActionCreators} from "redux";
 
 
 const schema = yup.object().shape({
@@ -12,21 +15,38 @@ const schema = yup.object().shape({
   password: yup.string().label('Password').min(6).required(),
 });
 
-
 const SigninForm = (props) => {
 
   const submitForm = (values, actions) => {
-    props.login(values)
+    // props.login(values)
+    // .then((data) => {
+    //   console.log(data.payload);
+    // })
+    // .catch(error => {
+    //   console.log('error');
+    //   actions.setFieldError('general', error.message);
+    // })
+    // .finally(() => {
+    //   actions.setSubmitting(false);
+    // });
+    props.requestAuth();
+    AuthService.signIn(values)
     .then((data) => {
-      console.log(data.payload);
+     props.successAuth(data);
+      props.getProfile();
+      props.history.push('/');
     })
-    .catch(error => {
-      console.log('error');
-      actions.setFieldError('general', error.message);
+    .catch(err => {
+     props.failureAuth();
+      actions.setFieldError('general', 'Login or password error\'s');
     })
-    .finally(() => {
-      actions.setSubmitting(false);
-    });
+    .finally(
+      () => {
+        actions.setSubmitting(false);
+      }
+    )
+
+    // fetch profile
   };
 
   const initialValues = {
@@ -97,8 +117,15 @@ const SigninForm = (props) => {
 
 const mapStateToProps = state => {
   return {
-    data: state.auth
+    auth: state.auth,
+    user: state.user
   }
 };
 
-export default connect(mapStateToProps, {login})(SigninForm);
+const mapActionsToProps = dispatch => bindActionCreators(
+  {getProfile, requestAuth, failureAuth, successAuth},
+  dispatch);
+
+export default withRouter(
+  connect(mapStateToProps, mapActionsToProps)(SigninForm)
+);

@@ -33,6 +33,8 @@ class SignupForm extends React.Component {
     password: ''
   };
 
+
+
   submitForm = (values, {setSubmitting}) => {
     setSubmitting(false);
 

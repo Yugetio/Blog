@@ -1,55 +1,66 @@
 import {AuthService} from "../services";
 
-const request_auth = () => {
+const requestAuth = () => {
   return {
-    type: 'REQUEST'
+    type: 'AUTH_REQUEST'
   }
 };
 
-const signin_success = (payload) => {
+const successAuth = (payload) => {
   return {
-    type: 'SIGNIN_SUCCESS',
+    type: 'AUTH_SUCCESS',
     payload
   }
 };
 
-const signup_success = () => {
+const failureAuth = () => {
   return {
-    type: 'SIGNUP_SUCCESS'
-  }
-};
-
-const failure_auth = () => {
-  return {
-    type: 'FEILURE'
+    type: 'AUTH_FEILURE'
   }
 };
 
 const login = (data) => (dispatch) => {
-  dispatch(request_auth());
+  dispatch(requestAuth());
 
   return AuthService.signIn(data)
-  .then(data => dispatch(signin_success(data)))
-  .catch(() => dispatch(failure_auth()));
+  .then(data => {
+    dispatch(successAuth(data))
+  })
+  .catch(() => {
+    dispatch(failureAuth())
+  });
 };
 
 const registration = (data) => (dispatch) => {
-  dispatch(request_auth());
+  dispatch(requestAuth());
 
   return AuthService.signUp(data)
-  .then(() => dispatch(signup_success()))
-  .catch(() => dispatch(failure_auth()));
+  .then(() => {
+    dispatch(successAuth())
+  })
+  .catch(() => {
+    dispatch(failureAuth())
+  });
 };
 
 const logout = () => (dispatch) => {
   return AuthService.logout()
-  .then(() => dispatch({
-    type: 'LOGOUT'
-  }));
+  .then(() => {
+    dispatch({
+      type: 'LOGOUT'
+    });
+    dispatch({
+      type: 'CLEAR_PROFILE'
+    });
+    return undefined;
+  });
 };
 
 export {
   login,
   registration,
-  logout
+  logout,
+  requestAuth,
+  successAuth,
+  failureAuth
 };
