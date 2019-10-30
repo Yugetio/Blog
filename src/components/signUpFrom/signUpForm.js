@@ -23,10 +23,6 @@ let schema = yup.object().shape({
 
 class SignupForm extends React.Component {
 
-  state = {
-    error: false
-  };
-
   initialValues = {
     username: '',
     email: '',
@@ -34,15 +30,15 @@ class SignupForm extends React.Component {
   };
 
 
-
-  submitForm = (values, {setSubmitting}) => {
-    setSubmitting(false);
-
+  submitForm = (values, {setSubmitting, setFieldError}) => {
     this.props.registration(values)
     .then(() => this.props.history.push("/signin"))
-    .catch(() => this.setState({
-      error: true
-    }))
+    .catch((err) => {
+      if (err.status === 409) {
+        setFieldError('email', err.message);
+      }
+    })
+    .finally(() => setSubmitting(false));
   };
 
   render() {
@@ -120,8 +116,5 @@ class SignupForm extends React.Component {
     );
   }
 }
-const mapStateToProps = state => {
-  return state;
-};
 
-export default withRouter(connect(mapStateToProps, {registration})(SignupForm));
+export default withRouter(connect(null, {registration})(SignupForm));

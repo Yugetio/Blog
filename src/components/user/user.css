@@ -9,3 +9,7 @@
 .profile button {
   margin: 10px;
 }
+
+.user-posts > button {
+  margin-bottom: 10px;
+}

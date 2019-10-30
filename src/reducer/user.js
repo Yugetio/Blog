@@ -31,8 +31,11 @@ const UserReducer = (state = initialState, action) => {
       };
 
 
-    case 'CLEAR_PROFILE':
-      return initialState;
+    case 'LOGOUT':
+      return {
+        ...initialState,
+        userData: {}
+      };
 
     default:
       return state;

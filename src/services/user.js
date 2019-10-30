@@ -64,6 +64,7 @@ class UserService {
 function _transformUser(data) {
   return {
     id: data._id,
+    username: data.username,
     firstname: data.firstname ? data.firstname : null,
     lastname: data.lastname ? data.lastname : null,
     email: data.email,

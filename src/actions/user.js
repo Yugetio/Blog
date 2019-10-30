@@ -22,31 +22,42 @@ const failureUser = () => {
 
 const getProfile = () => dispatch => {
   dispatch(requestUser());
-  UserService.getProfile()
+  return UserService.getProfile()
   .then((user) => {
     dispatch(successUser(user));
   })
-  .catch(() => dispatch(failureUser()));
+  .catch(() => {
+    dispatch(failureUser());
+    return Promise.reject();
+  });
 };
 
-const updatedProfile = ({irstname, lastname}) => dispatch => {
+const updatedProfile = ({firstname, lastname}) => dispatch => {
   dispatch(requestUser());
-  UserService.updatedProfile({irstname, lastname})
+  return UserService.updatedProfile({firstname, lastname})
   .then((user) => {
     dispatch(successUser(user));
   })
-  .catch(() => dispatch(failureUser()));
+  .catch(() => {
+    dispatch(failureUser());
+    return Promise.reject();
+  });
 };
 
 const deleteProfile = () => dispatch => {
   dispatch(requestUser());
-  UserService.deleteProfile()
+  return UserService.deleteProfile()
   .then(() => {
-    return {
-      type: 'DELETE_PROFILE'
-    }
-  })
-  .catch(() => dispatch(failureUser()));
+    dispatch({
+      type: 'LOGOUT'
+    });
+    dispatch({
+      type: 'CLEAR_PROFILE'
+    });})
+  .catch(() => {
+    dispatch(failureUser());
+    return Promise.reject();
+  });
 };
 
 export {

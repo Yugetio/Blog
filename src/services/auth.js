@@ -18,7 +18,7 @@ class AuthService {
         resolve(res.data);
       })
       .catch(err => {
-        reject(err);
+        reject(JSON.parse(err.request.response));
       })
     })
   };
@@ -41,7 +41,7 @@ class AuthService {
         resolve(res.data);
       })
       .catch(err => {
-        reject(err);
+        reject(JSON.parse(err.request.response));
       })
     })
   };

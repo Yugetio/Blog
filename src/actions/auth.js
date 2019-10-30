@@ -6,7 +6,7 @@ const requestAuth = () => {
   }
 };
 
-const successAuth = (payload) => {
+const successAuth = (payload = {}) => {
   return {
     type: 'AUTH_SUCCESS',
     payload
@@ -27,7 +27,8 @@ const login = (data) => (dispatch) => {
     dispatch(successAuth(data))
   })
   .catch(() => {
-    dispatch(failureAuth())
+    dispatch(failureAuth());
+    return Promise.reject();
   });
 };
 
@@ -38,8 +39,9 @@ const registration = (data) => (dispatch) => {
   .then(() => {
     dispatch(successAuth())
   })
-  .catch(() => {
-    dispatch(failureAuth())
+  .catch((err) => {
+    dispatch(failureAuth());
+    return Promise.reject(err);
   });
 };
 
@@ -52,7 +54,6 @@ const logout = () => (dispatch) => {
     dispatch({
       type: 'CLEAR_PROFILE'
     });
-    return undefined;
   });
 };
 

@@ -26,9 +26,28 @@ const getAllPosts = () => (dispatch) => {
     type: 'GET_ALL_POSTS',
     payload: data
   }))
-  .catch(() => dispatch(failurePost()));
+  .catch(() => {
+    dispatch(failurePost());
+    return Promise.reject();
+  });
+};
+
+// const updatePost = (id, {title, text}) => (dispatch) => {
+//   dispatch(requestPost());
+//
+// };
+
+const deletePost = (id) => (dispatch) => {
+  // dispatch(requestPost());
+
+  // return PostService.deletePost(id)
+  // .then(() => getAllPosts())
+  // .catch(() => {
+  //   dispatch(failurePost());
+  // })
 };
 
 export {
-  getAllPosts
+  getAllPosts,
+  deletePost
 };
