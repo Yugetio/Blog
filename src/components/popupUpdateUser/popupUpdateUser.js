@@ -13,28 +13,26 @@ const schema = yup.object().shape({
   lastname: yup.string().label('lastname').min(1).required()
 });
 
-const submitForm = (values, actions) => {
-  console.log(values);
-
-  this.props.updatedProfile(values)
-  .then(() => {
-    this.props.togglePopupUserUpdate();
-  })
-  .catch(() => {
-    actions.setFieldError('firstname', 'some error');
-    actions.setFieldError('lastname', 'some error');
-  })
-  .finally(
-    () => {
-      actions.setSubmitting(false);
-    }
-  )
-};
-
 class PopupUserUpdate extends React.Component{
   initialValues = {
     firstname: '',
     lastname: ''
+  };
+
+  submitForm = (values, actions) => {
+    this.props.updatedProfile(values)
+    .then(() => {
+      this.props.togglePopupUserUpdate();
+    })
+    .catch(() => {
+      actions.setFieldError('firstname', 'some error');
+      actions.setFieldError('lastname', 'some error');
+    })
+    .finally(
+      () => {
+        actions.setSubmitting(false);
+      }
+    )
   };
 
   render() {
@@ -57,7 +55,7 @@ class PopupUserUpdate extends React.Component{
                   <Formik
                     initialValues={this.initialValues}
                     validationSchema={schema}
-                    onSubmit={submitForm}
+                    onSubmit={this.submitForm}
                   >
                     {({touched, errors, isSubmitting}) => (
                       <Form>

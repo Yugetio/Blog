@@ -1,8 +1,7 @@
 const initialState = {
-  userData: {},
   loading: false,
   error: false,
-  isLogin: !!localStorage['user-token']
+  isLogin: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -18,7 +17,6 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        userData: action.payload,
         isLogin: !!action.payload.token
       };
 
@@ -32,13 +30,13 @@ const authReducer = (state = initialState, action) => {
     case 'LOGOUT':
       return {
         ...state,
-        isLogin: false,
-        userData: {}
+        isLogin: false
       };
 
     case 'CHECK_TOKEN_SUCCESS':
       return {
         ...state,
+        loading: false,
         isLogin: true
       };
 

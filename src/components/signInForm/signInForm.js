@@ -20,13 +20,13 @@ const schema = yup.object().shape({
 
 class SigninForm extends React.Component {
 
-  // componentDidUpdate() {
-  //   if (this.props.user.loading && this.props.user.userData.avatar) {
-  //     console.log(this.props.user.loading, this.props.user.userData.avatar);
-  //
-  //     this.props.history.push('/');
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevProps.user.loading !== this.props.user.loading) {
+    //   console.log(this.props.user.loading, this.props.user.userData);
+    //
+    //   this.props.history.push('/');
+    // }
+  }
 
 
   submitForm = (values, actions) => {

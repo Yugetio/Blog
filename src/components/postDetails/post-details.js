@@ -1,21 +1,20 @@
 import React, {Fragment} from 'react';
+import {connect} from 'react-redux';
 
 import './post-details.css';
+
+import {deletePost, setDataPost, togglePopupPosts} from '../../actions';
+
 
 const lastUpdate = (updatedAt) => {
   let data = new Date(updatedAt);
   return `${data.getFullYear()}.${data.getMonth()}.${data.getDay()}`;
 };
 
-const deletePost = (id) => ()  => {
-  console.log(id);
-};
-
-const updatePost = (post) => () => {
-  console.log(post);
-}
-
-const PostDetails = ({post, isAuthor}) => {
+const PostDetails = (props) => {
+  const {post, isAuthor,
+    deletePost, setDataPost,
+    togglePopupPosts} = props;
 
   const {
     _id: id,
@@ -24,6 +23,11 @@ const PostDetails = ({post, isAuthor}) => {
     updatedAt,
     author
   } = post;
+
+  const updatePost = (post) => () => {
+    togglePopupPosts();
+    setDataPost(post);
+  };
 
   return (
     <div className="card mb-3 post-details">
@@ -37,7 +41,7 @@ const PostDetails = ({post, isAuthor}) => {
             `Author: ${author.username}, Last update: ${lastUpdate(updatedAt)}` :
             <Fragment>
               <button type="button" className="btn btn-link" onClick={updatePost(post)}>Update post</button>
-              <button type="button" className="btn btn-link" onClick={deletePost(id)}>Delete post</button>
+              <button type="button" className="btn btn-link" onClick={() => deletePost(id)}>Delete post</button>
             </Fragment>
         }
       </div>
@@ -45,4 +49,4 @@ const PostDetails = ({post, isAuthor}) => {
   );
 };
 
-export default PostDetails;
+export default connect(null, {deletePost, setDataPost, togglePopupPosts})(PostDetails);

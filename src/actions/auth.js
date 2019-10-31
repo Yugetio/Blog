@@ -45,6 +45,19 @@ const registration = (data) => (dispatch) => {
   });
 };
 
+const checkToken = () => (dispatch) => {
+  return AuthService.checkToken()
+  .then(() => {
+    dispatch({
+      type: 'CHECK_TOKEN_SUCCESS'
+    })
+  })
+  .catch(() => {
+    logout();
+    return Promise.reject();
+  })
+};
+
 const logout = () => (dispatch) => {
   return AuthService.logout()
   .then(() => {
@@ -61,6 +74,7 @@ export {
   login,
   registration,
   logout,
+  checkToken,
   requestAuth,
   successAuth,
   failureAuth

@@ -21,9 +21,9 @@ class Posts extends React.Component {
   }
 
   render() {
-    const {error, isLoaded, posts, isAuthor, userPosts} = this.props;
+    const {error, isLoaded, posts, isAuthor, userId} = this.props;
 
-    const postForRender = !isAuthor ? posts : userPosts.map(id => posts.find(({_id}) => id === _id));
+    const postForRender = !isAuthor ? posts : posts.filter(post => post.author === userId || post.author._id === userId);
 
     let body = null;
 
@@ -32,7 +32,6 @@ class Posts extends React.Component {
     } else if (!isLoaded) {
       body = 'Loading...';
     } else {
-      console.log(postForRender)
       body = renderPosts(postForRender, isAuthor);
     }
 
@@ -49,7 +48,7 @@ const mapStateToProps = state => {
     posts: state.posts.allPosts,
     isLoaded: state.posts.isLoaded,
     error: state.posts.error,
-    userPosts: state.user.userData.posts
+    userId: state.user.userData.id
   }
 };
 

@@ -11,8 +11,6 @@ class UserService {
       axios.get('/user/profile')
       .then(({data: {data}}) => {
         const user = _transformUser(data);
-        localStorage['user-data'] = JSON.stringify(user);
-
         resolve(user);
       })
       .catch(err => {
@@ -34,8 +32,6 @@ class UserService {
       })
       .then(({data: {data}}) => {
         const user = _transformUser(data);
-        localStorage['user-data'] = JSON.stringify(user);
-
         resolve(user);
       })
       .catch(err => {

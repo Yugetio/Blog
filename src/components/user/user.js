@@ -3,15 +3,15 @@ import {connect} from 'react-redux';
 
 import './user.css';
 
-import {logout, deleteProfile} from '../../actions';
+import {logout, deleteProfile, togglePopupPosts} from '../../actions';
 import PopupUserUpdate from "../popupUpdateUser";
 import Posts from "../posts/posts";
+import PopupPost from "../popUpPost/popupPost";
 
 class User extends Component {
 
   state = {
-    popupUserUpdate: false,
-    popupPost: false
+    popupUserUpdate: false
   };
 
   togglePopupUserUpdate = () => {
@@ -21,8 +21,9 @@ class User extends Component {
   };
 
   render() {
-    const {user, logout, deleteProfile} = this.props;
-    const {popupUserUpdate,popupPost} = this.state;
+    const {user, logout, deleteProfile, postsPopup} = this.props;
+    const {popupUserUpdate} = this.state;
+
     return (
       <Fragment>
         <div className="profile">
@@ -32,22 +33,31 @@ class User extends Component {
           <p>{`Email: ${user.email}`}</p>
 
           <div>
-            <button type="button" className="btn btn-warning" onClick={this.togglePopupUserUpdate}>Update profile</button>
-            <button type="button" className="btn btn-primary" onClick={logout}>Logout</button>
-            <button type="button" className="btn btn-danger" onClick={deleteProfile}>Delete profile</button>
+            <button type="button" className="btn btn-warning"
+                    onClick={this.togglePopupUserUpdate}>Update profile
+            </button>
+            <button type="button" className="btn btn-primary"
+                    onClick={logout}>Logout
+            </button>
+            <button type="button" className="btn btn-danger"
+                    onClick={deleteProfile}>Delete profile
+            </button>
           </div>
 
         </div>
         <hr/>
         <div className="user-posts">
-          <button type="button" className="btn btn-primary col-sm-12" onClick={() => {}}>Create post</button>
+          <button type="button"
+                  className="btn btn-primary col-sm-12"
+                  onClick={this.props.togglePopupPosts}>Create post
+          </button>
 
-          <Posts isAuthor />
+          <Posts isAuthor/>
         </div>
 
 
         {!popupUserUpdate ? null : <PopupUserUpdate togglePopupUserUpdate={this.togglePopupUserUpdate}/>}
-        {!popupPost ? null : <p>component popup post</p>}
+        {!postsPopup ? null : <PopupPost/>}
 
       </Fragment>
     )
@@ -56,8 +66,9 @@ class User extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.userData
+    user: state.user.userData,
+    postsPopup: state.posts.popup
   }
 };
 
-export default connect(mapStateToProps, {logout, deleteProfile})(User);
+export default connect(mapStateToProps, {logout, deleteProfile, togglePopupPosts})(User);

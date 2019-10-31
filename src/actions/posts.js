@@ -6,12 +6,6 @@ const requestPost = () => {
   }
 };
 
-// const successPost = (payload) => {
-//   return {
-//     type: 'SUCCESS_POST'
-//   }
-// };
-
 const failurePost = () => {
   return {
     type: 'POST_FEILURE'
@@ -32,22 +26,70 @@ const getAllPosts = () => (dispatch) => {
   });
 };
 
-// const updatePost = (id, {title, text}) => (dispatch) => {
-//   dispatch(requestPost());
-//
-// };
+const createPost = (payload) => (dispatch) => {
+  dispatch(requestPost());
+  return PostService.createPost(payload)
+  .then((post) => {
+    dispatch({
+      type: 'CREATE_POST',
+      payload: post
+    });
+  })
+  .catch(() => {
+    dispatch(failurePost());
+    return Promise.reject();
+  })
+};
+
+const updatePost = (id, payload) => (dispatch) => {
+  dispatch(requestPost());
+
+  return PostService.updatePost(id, payload)
+  .then((post) => {
+    dispatch({
+      type: 'UPDATE_POST',
+      payload: post
+    });
+  })
+  .catch(() => {
+    dispatch(failurePost());
+    return Promise.reject();
+  })
+};
 
 const deletePost = (id) => (dispatch) => {
-  // dispatch(requestPost());
+  dispatch(requestPost());
 
-  // return PostService.deletePost(id)
-  // .then(() => getAllPosts())
-  // .catch(() => {
-  //   dispatch(failurePost());
-  // })
+  return PostService.deletePost(id)
+  .then(() => {
+    dispatch({
+      type: 'DELETE_POST',
+      payload: id
+    });
+  })
+  .catch(() => {
+    dispatch(failurePost());
+  })
+};
+
+const togglePopupPosts = () => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_POPUP_POST'
+  })
+};
+
+const setDataPost = (post) => (dispatch) => {
+  dispatch({
+    type: 'SET_DATA_POST',
+    payload: post
+  })
 };
 
 export {
   getAllPosts,
-  deletePost
+  createPost,
+  updatePost,
+  deletePost,
+  togglePopupPosts,
+  setDataPost
 };

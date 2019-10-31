@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -12,45 +12,61 @@ import Posts from '../posts';
 import Welcome from '../welcome';
 import User from '../user';
 
-const App = (props) => {
+import {checkToken, getProfile} from '../../actions';
+import Spiner from "../spiner";
 
+class App extends React.Component {
 
-  const {isLogin} = props.auth;
-  return (
-    <Fragment>
-      <Header/>
-      <div className="container">
-        <Switch>
-          <Route path="/"
-                 component={Welcome}
-                 exact/>
+  componentDidMount() {
+    const {checkToken, getProfile, auth} = this.props;
+    const token = localStorage['user-token'];
 
+    if (token && !auth.isLogin) {
+      checkToken()
+      .then(() => {
+        getProfile();
+      });
+    }
+  }
 
-          <Route path="/signup">
-            {isLogin ? <Redirect to="/"/> : <SignUpForm/>}
-          </Route>
+  render() {
+    const { isLogin } = this.props.auth;
+    return (
+      <Spiner>
+        <Header/>
+        <div className="container">
+          <Switch>
+            <Route path="/"
+                   component={Welcome}
+                   exact/>
 
-          <Route path="/signin">
-            {isLogin ? <Redirect to="/"/> : <SignInForm/>}
-          </Route>
+            <Route path="/signup">
+              {isLogin ? <Redirect to="/"/> : <SignUpForm/>}
+            </Route>
 
-          <Route path="/user">
-            {isLogin ? <User/> : <Redirect to="/signin"/>}
-          </Route>
+            <Route path="/signin">
+              {isLogin ? <Redirect to="/"/> : <SignInForm/>}
+            </Route>
 
-          <Route path="/posts"
-                 component={Posts}/>
+            <Route path="/user">
+              {isLogin ? <User/> : <Redirect to="/signin"/>}
+            </Route>
 
-        </Switch>
-      </div>
-    </Fragment>
-  );
-};
+            <Route path="/posts"
+                   component={Posts}/>
+
+          </Switch>
+        </div>
+      </Spiner>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    isLoad: state.user.isLoad
   }
 };
 
-export default connect(mapStateToProps, {})(App);
+export default connect(mapStateToProps, {checkToken, getProfile})(App);

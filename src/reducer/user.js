@@ -1,7 +1,8 @@
 const initialState = {
-  userData: !!localStorage['user-data'] ? JSON.parse(localStorage['user-data']) : {},
+  userData: {},
   loading: false,
-  error: false
+  error: false,
+  isLoad: false
 };
 
 
@@ -11,7 +12,9 @@ const UserReducer = (state = initialState, action) => {
     case 'USER_REQUEST':
       return {
         ...state,
-        loading: true
+        loading: true,
+        isLoad: false
+
       };
 
     case 'USER_SUCCESS':
@@ -19,7 +22,8 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        userData: action.payload
+        userData: action.payload,
+        isLoad: true
       };
 
     case 'USER_FAILURE':
@@ -27,14 +31,12 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: true,
-        userData: {}
       };
 
 
-    case 'LOGOUT':
+    case 'CLEAR_PROFILE':
       return {
-        ...initialState,
-        userData: {}
+        ...initialState
       };
 
     default:
