@@ -18,7 +18,7 @@ class AuthService {
         resolve(res.data);
       })
       .catch(err => {
-        reject(err);
+        reject(JSON.parse(err.request.response));
       })
     })
   };
@@ -36,11 +36,12 @@ class AuthService {
       })
       .then(res => {
         localStorage['user-token'] = res.data.token;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
 
         resolve(res.data);
       })
       .catch(err => {
-        reject(err);
+        reject(JSON.parse(err.request.response));
       })
     })
   };
@@ -81,6 +82,8 @@ class AuthService {
     return new Promise((resolve, reject) => {
       delete axios.defaults.headers.common['Authorization'];
       localStorage.removeItem('user-token');
+      localStorage.removeItem('user-data');
+
       resolve();
     })
   }

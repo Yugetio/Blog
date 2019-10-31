@@ -1,0 +1,12 @@
+nav {
+  margin-bottom: 20px;
+}
+
+nav ul {
+  width: 100%;
+  align-items: flex-end;
+}
+
+nav li:first-child {
+  flex-grow: 1
+}
