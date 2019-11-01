@@ -23,7 +23,8 @@ class Posts extends React.Component {
   render() {
     const {error, isLoaded, posts, isAuthor, userId} = this.props;
 
-    const postForRender = !isAuthor ? posts : posts.filter(post => post.author === userId || post.author._id === userId);
+    let postForRender = !isAuthor ? posts : posts.filter(post => post.author === userId || post.author._id === userId);
+    postForRender = postForRender.reverse();
 
     let body = null;
 
