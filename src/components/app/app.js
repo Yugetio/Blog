@@ -13,7 +13,7 @@ import Welcome from '../welcome';
 import User from '../user';
 
 import {checkToken, getProfile} from '../../actions';
-import Spiner from "../spiner";
+import Spinner from "../spinner";
 
 class App extends React.Component {
 
@@ -32,7 +32,7 @@ class App extends React.Component {
   render() {
     const { isLogin } = this.props.auth;
     return (
-      <Spiner>
+      <Spinner>
         <Header/>
         <div className="container">
           <Switch>
@@ -57,7 +57,7 @@ class App extends React.Component {
 
           </Switch>
         </div>
-      </Spiner>
+      </Spinner>
     );
   }
 }

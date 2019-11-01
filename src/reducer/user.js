@@ -13,12 +13,9 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        isLoad: false
-
       };
 
     case 'USER_SUCCESS':
-
       return {
         ...state,
         loading: false,
@@ -31,6 +28,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: true,
+
       };
 
 
