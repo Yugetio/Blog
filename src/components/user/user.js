@@ -15,9 +15,10 @@ class User extends Component {
   };
 
   togglePopupUserUpdate = () => {
-    this.setState({
-      popupUserUpdate: !this.state.popupUserUpdate
-    })
+    // this.setState({
+    //   popupUserUpdate: !this.state.popupUserUpdate
+    // })
+    this.setState(prevState => ({ popupUserUpdate: !prevState.popupUserUpdate }))
   };
 
   render() {
